@@ -1,7 +1,8 @@
+config/datasets.php
+
 /.idea
 /*.iml
 /vendor
-/.idea
 Homestead.json
 Homestead.yaml
 .env
