@@ -1,0 +1,13 @@
+<?php
+
+return [
+    /*
+    'sample_dataset' => [
+        'host_name' => '' // (optional) The host name of this server if differ from resource URI
+        'resource_uri' => 'https://example.com/resource/{id}',
+        'html_uri' => 'https://example.com/page/{id}',
+        'data_uri' => 'https://example.com/data/{id}',
+        'endpoint' => 'https://example.com/query', // SPARQL endpoint URI
+    ],
+    */
+];
