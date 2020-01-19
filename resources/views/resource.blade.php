@@ -65,4 +65,8 @@
             @endforeach
         @endforeach
     </table>
+
+    <script type="application/ld+json">
+    {!! $graph->serialise('jsonld') !!}
+    </script>
 @endsection
