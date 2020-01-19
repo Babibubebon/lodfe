@@ -10,7 +10,9 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
+if ($_SERVER['PHP_SELF'] === 'artisan') {
+    return;
+}
 
 function joinHostPort($components)
 {

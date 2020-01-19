@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\ContentNegotiatorMiddleware;
 use Illuminate\Http\Request;
 
 class ResourceController extends Controller
@@ -64,6 +65,8 @@ class ResourceController extends Controller
         } catch (\EasyRdf_Exception $e) {
             abort(400);
         }
-        return $data;
+        $type = ContentNegotiatorMiddleware::mimetypeFromExtension($ext);
+        return response($data)
+            ->header('Content-Type', $type);
     }
 }
