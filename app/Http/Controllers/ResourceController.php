@@ -41,7 +41,10 @@ class ResourceController extends Controller
 
     public function html(Request $request, $id)
     {
-        $graph = $this->querySparql($request, $id);
+        $graph = $this->querySparql($request, urldecode($id));
+        if ($graph->isEmpty()) {
+            abort(404);
+        }
         $subject = key($graph->toRdfPhp());
         $datasetConfig = $this->getCurrentDatasetConfig($request);
         $dataUri = str_replace('{id}', $id, $datasetConfig['data_uri']);
