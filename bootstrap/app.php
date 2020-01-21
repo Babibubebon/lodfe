@@ -72,6 +72,7 @@ $app->singleton(
 
 $app->routeMiddleware([
     'content_negotiation' => App\Http\Middleware\ContentNegotiatorMiddleware::class,
+    'dataset' => App\Http\Middleware\DatasetMiddleware::class,
 ]);
 
 /*

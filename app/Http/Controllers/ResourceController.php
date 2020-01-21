@@ -16,12 +16,11 @@ class ResourceController extends Controller
     ];
 
     /**
-     * @param Request $request
-     * @return mixed
+     * ResourceController constructor.
      */
-    protected function getCurrentDatasetConfig($request) {
-        $datasetName = explode('.', $request->route()[1]['as'])[1];
-        return config('datasets.' . $datasetName);
+    public function __construct()
+    {
+        $this->middleware('dataset');
     }
 
     /**
@@ -31,31 +30,45 @@ class ResourceController extends Controller
      */
     protected function querySparql($request, $id)
     {
-        $datasetConfig = $this->getCurrentDatasetConfig($request);
-        $client = new \EasyRdf_Sparql_Client($datasetConfig['endpoint']);
-
-        $resourceUri = str_replace('{id}', $id, $datasetConfig['resource_uri']);
-        $query = 'DESCRIBE <' . $resourceUri . '>';
+        $client = new \EasyRdf_Sparql_Client($request->datasetConfig['endpoint']);
+        $query = <<<EOT
+    CONSTRUCT {
+        <{$request->resourceUri}> ?p ?o .
+        ?s ?ip <{$request->resourceUri}> .
+    }
+    WHERE {
+        <{$request->resourceUri}> ?p ?o .
+        ?s ?ip <{$request->resourceUri}> .
+    }
+EOT;
         return $client->query($query);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\View\View
+     */
     public function html(Request $request, $id)
     {
         $graph = $this->querySparql($request, urldecode($id));
         if ($graph->isEmpty()) {
             abort(404);
         }
-        $subject = key($graph->toRdfPhp());
-        $datasetConfig = $this->getCurrentDatasetConfig($request);
-        $dataUri = str_replace('{id}', $id, $datasetConfig['data_uri']);
 
         return view('resource')->with([
             'graph' => $graph,
-            'subject' => $subject,
-            'dataUri' => $dataUri,
+            'primaryTopic' => $request->resourceUri,
+            'dataUri' => $request->dataUri,
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @param $ext
+     * @return \Illuminate\Http\Response|\Laravel\Lumen\Http\ResponseFactory
+     */
     public function data(Request $request, $id, $ext)
     {
         if (!in_array($ext, $this->acceptableFileExtensions)) {

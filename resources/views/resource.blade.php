@@ -1,12 +1,12 @@
 @extends('base')
 @section('title')
-    About: {{ $graph->label($subject) ?? $graph->getLiteral($subject, 'schema:name') }}
+    About: {{ $graph->label($primaryTopic) ?? $graph->getLiteral($primaryTopic, 'schema:name') }}
 @endsection
 
 @section('content')
     <section>
         <h1>@yield('title')</h1>
-        <code class="h5">{{ $subject }}</code>
+        <code class="h5">{{ $primaryTopic }}</code>
 
         <div class="float-right">
             <div class="dropdown">
@@ -33,40 +33,26 @@
             <th>Value</th>
         </tr>
         </thead>
+        <tbody>
         @foreach($graph->toRdfPhp() as $subject => $predicateObjects)
-            @foreach($predicateObjects as $predicate => $objects)
-                <tbody>
-                <tr>
-                    <td>
-                        <a href="{{ $predicate }}">{{ \EasyRdf_Namespace::shorten($predicate) ?? $predicate }}</a>
-                    </td>
-                    <td>
-                        <ul>
-                            @foreach($objects as $object)
-                                <li>
-                                    @if($object['type'] === 'uri')
-                                        <a href="{{ $object['value'] }}">{{ $object['value'] }}</a>
-                                    @elseif($object['type'] === 'literal')
-                                        {{ $object['value'] }}
-                                        @if(isset($object['lang']))
-                                            <small>{{ '@'.$object['lang'] }}</small>
-                                        @endif
-                                        @if(isset($object['datatype']))
-                                            <small>^^{{ \EasyRdf_Namespace::shorten($object['datatype']) ?? $object['datatype'] }}</small>
-                                        @endif
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                    </td>
-                </tr>
-                </tbody>
-
-            @endforeach
+            @if($subject === $primaryTopic)
+                @foreach($predicateObjects as $predicate => $objects)
+                    @include('parts.row')
+                @endforeach
+                @break
+            @endif
         @endforeach
+        @foreach($graph->toRdfPhp() as $subject => $predicateObjects)
+            @if($subject !== $primaryTopic)
+                @foreach($predicateObjects as $predicate => $objects)
+                    @include('parts.row')
+                @endforeach
+            @endif
+        @endforeach
+        </tbody>
     </table>
 
     <script type="application/ld+json">
-    {!! $graph->serialise('jsonld') !!}
+        {!! $graph->serialise('jsonld') !!}
     </script>
 @endsection
