@@ -38,7 +38,7 @@ class ResourceController extends Controller
     }
     WHERE {
         <{$request->resourceUri}> ?p ?o .
-        ?s ?ip <{$request->resourceUri}> .
+        OPTIONAL { ?s ?ip <{$request->resourceUri}> . }
     }
 EOT;
         return $client->query($query);
