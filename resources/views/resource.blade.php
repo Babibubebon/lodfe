@@ -12,7 +12,9 @@
                 An Entity of Type:
                 <ul class="list-inline" style="display: inline">
                     @foreach($graph->typesAsResources($primaryTopic) as $type)
-                       <li class="list-inline-item"><a href="{{ $type->getUri() }}">{{ $type->shorten() }}</a></li>
+                        <li class="list-inline-item"><a href="{{ $type->getUri() }}">
+                            {{ $type->shorten() ?? $type->getUri() }}</a>
+                        </li>
                     @endforeach
                 </li>
             </div>
