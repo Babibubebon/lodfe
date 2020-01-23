@@ -4,9 +4,19 @@
 @endsection
 
 @section('content')
-    <section>
+    <header>
         <h1>@yield('title')</h1>
-        <code class="h5">{{ $primaryTopic }}</code>
+        <div>
+            <code class="h5">{{ $primaryTopic }}</code>
+            <div>
+                An Entity of Type:
+                <ul class="list-inline" style="display: inline">
+                    @foreach($graph->typesAsResources($primaryTopic) as $type)
+                       <li class="list-inline-item"><a href="{{ $type->getUri() }}">{{ $type->shorten() }}</a></li>
+                    @endforeach
+                </li>
+            </div>
+        </div>
 
         <div class="float-right">
             <div class="dropdown">
@@ -24,7 +34,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
     <table class="table table-sm mt-3">
         <thead>
