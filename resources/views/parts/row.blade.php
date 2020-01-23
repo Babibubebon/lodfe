@@ -14,14 +14,14 @@
                 @foreach($objects as $object)
                     <li>
                         @if($object['type'] === 'uri')
-                            <a href="{{ $object['value'] }}">{{ $object['value'] }}</a>
+                            <a href="{{ $object['value'] }}">{{ \EasyRdf_Namespace::shorten($object['value']) ?? $object['value'] }}</a>
                         @elseif($object['type'] === 'literal')
                             {{ $object['value'] }}
                             @if(isset($object['lang']))
-                                <small>{{ '@'.$object['lang'] }}</small>
+                                <small class="langtag">{{ '@'.$object['lang'] }}</small>
                             @endif
                             @if(isset($object['datatype']))
-                                <small>^^{{ \EasyRdf_Namespace::shorten($object['datatype']) ?? $object['datatype'] }}</small>
+                                <small class="datatype">^^{{ \EasyRdf_Namespace::shorten($object['datatype']) ?? $object['datatype'] }}</small>
                             @endif
                         @endif
                     </li>

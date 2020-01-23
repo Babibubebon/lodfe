@@ -25,10 +25,9 @@ class ResourceController extends Controller
 
     /**
      * @param $request
-     * @param $id
      * @return \EasyRdf_Graph
      */
-    protected function querySparql($request, $id)
+    protected function querySparql($request)
     {
         $client = new \EasyRdf_Sparql_Client($request->datasetConfig['endpoint']);
         $query = <<<EOT
@@ -51,7 +50,7 @@ EOT;
      */
     public function html(Request $request, $id)
     {
-        $graph = $this->querySparql($request, urldecode($id));
+        $graph = $this->querySparql($request);
         if ($graph->isEmpty()) {
             abort(404);
         }
@@ -75,7 +74,7 @@ EOT;
             abort(400);
         }
 
-        $graph = $this->querySparql($request, $id);
+        $graph = $this->querySparql($request);
         try {
             $data = $graph->serialise(substr($ext, 1));
         } catch (\EasyRdf_Exception $e) {
