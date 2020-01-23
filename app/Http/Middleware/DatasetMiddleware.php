@@ -22,7 +22,7 @@ class DatasetMiddleware
         $datasetName = explode('.', $request->route()[1]['as'])[1];
         $currentDatasetConfig = config('datasets.' . $datasetName);
 
-        $id = $request->route('id');
+        $id = urldecode($request->route('id'));
         $resourceUri = str_replace('{id}', $id, $currentDatasetConfig['resource_uri']);
         $dataUri = str_replace('{id}', $id, $currentDatasetConfig['data_uri']);
 
