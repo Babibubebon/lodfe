@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.2",
-        "easyrdf/easyrdf": "^0.9.1",
+        "easyrdf/easyrdf": "^1.0.0",
         "laravel/lumen-framework": "^6.0",
         "ml/json-ld": "^1.1"
     },

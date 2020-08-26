@@ -31,7 +31,7 @@ $app->configure('namespaces');
 
 // Register namespaces
 foreach (config('namespaces') as $prefix => $uri) {
-    EasyRdf_Namespace::set($prefix, $uri);
+    \EasyRdf\RdfNamespace::set($prefix, $uri);
 }
 
 /*
