@@ -25,11 +25,11 @@ class ResourceController extends Controller
 
     /**
      * @param $request
-     * @return \EasyRdf_Graph
+     * @return \EasyRdf\Graph
      */
     protected function querySparql($request)
     {
-        $client = new \EasyRdf_Sparql_Client($request->datasetConfig['endpoint']);
+        $client = new \EasyRdf\Sparql\Client($request->datasetConfig['endpoint']);
         $query = <<<EOT
     CONSTRUCT {
         <{$request->resourceUri}> ?p ?o .
@@ -77,7 +77,7 @@ EOT;
         $graph = $this->querySparql($request);
         try {
             $data = $graph->serialise(substr($ext, 1));
-        } catch (\EasyRdf_Exception $e) {
+        } catch (\EasyRdf\Exception $e) {
             abort(400);
         }
         $type = ContentNegotiatorMiddleware::mimetypeFromExtension($ext);
