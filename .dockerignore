@@ -1,0 +1,8 @@
+.env
+.git
+.idea
+vendor
+storage/app/*
+storage/framework/cache/*
+storage/framework/views/*
+storage/logs/*

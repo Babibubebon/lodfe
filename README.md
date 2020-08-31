@@ -4,7 +4,8 @@ SPARQLエンドポイントを用いたLinked Open Dataフロントエンド([Pu
 
 ## Installation
 ```
+$ git clone https://github.com/Babibubebon/lodfe.git
+$ cd lodfe
 $ composer install
-$ cp .env{.example,}
 $ cp config/datasets.php{.example,}
 ```
