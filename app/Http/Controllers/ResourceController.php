@@ -29,6 +29,10 @@ class ResourceController extends Controller
      */
     protected function querySparql($request)
     {
+        if (!empty($request->datasetConfig['http'])) {
+            $httpClient = new \EasyRdf\Http\Client(null, $request->datasetConfig['http']);
+            \EasyRdf\Http::setDefaultHttpClient($httpClient);
+        }
         $client = new \EasyRdf\Sparql\Client($request->datasetConfig['endpoint']);
         $query = <<<EOT
     CONSTRUCT {

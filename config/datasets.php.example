@@ -8,6 +8,9 @@ return [
         'html_uri' => 'https://example.com/page/{id}',
         'data_uri' => 'https://example.com/data/{id}',
         'endpoint' => 'https://example.com/query', // SPARQL endpoint URI
+        'http' => [
+            'timeout' => 30,
+        ]
     ],
     */
 ];
