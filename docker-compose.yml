@@ -1,0 +1,13 @@
+version: "3"
+services:
+  php:
+    image: babibubebon/lodfe:latest-php
+    volumes:
+      - ./config/datasets.php:/var/www/lodfe/config/datasets.php:ro
+
+  nginx:
+    image: babibubebon/lodfe:latest-nginx
+    ports:
+      - 80:80
+    depends_on:
+      - php
