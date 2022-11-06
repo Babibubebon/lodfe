@@ -5,9 +5,9 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "easyrdf/easyrdf": "^1.1.0",
-        "laravel/lumen-framework": "^8.0",
+        "laravel/lumen-framework": "^9.0",
         "ml/json-ld": "^1.1"
     },
     "require-dev": {
