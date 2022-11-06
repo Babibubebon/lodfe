@@ -11,7 +11,7 @@
     <td>
         <ul>
             @if($subject === $primaryTopic)
-                @foreach($objects as $object)
+                @foreach(collect($objects)->sortBy('value') as $object)
                     <li>
                         @if($object['type'] === 'uri')
                             <a href="{{ $object['value'] }}">{{ \EasyRdf\RdfNamespace::shorten($object['value']) ?? $object['value'] }}</a>
