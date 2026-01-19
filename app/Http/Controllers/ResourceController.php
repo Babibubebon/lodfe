@@ -37,10 +37,15 @@ class ResourceController extends Controller
         $query = <<<EOT
     CONSTRUCT {
         <{$request->resourceUri}> ?p ?o .
+        ?o ?op ?oo .
         ?s ?ip <{$request->resourceUri}> .
     }
     WHERE {
         <{$request->resourceUri}> ?p ?o .
+        OPTIONAL {
+            ?o ?op ?oo .
+            FILTER (isBlank(?o))
+        }
         OPTIONAL { ?s ?ip <{$request->resourceUri}> . }
     }
 EOT;

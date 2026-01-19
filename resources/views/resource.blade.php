@@ -16,7 +16,7 @@
                             {{ $type->shorten() ?? $type->getUri() }}</a>
                         </li>
                     @endforeach
-                </li>
+                </ul>
             </div>
         </div>
 
@@ -46,18 +46,24 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($graph->toRdfPhp() as $subject => $predicateObjects)
-            @if($subject === $primaryTopic)
-                @foreach($predicateObjects as $predicate => $objects)
-                    @include('parts.row')
-                @endforeach
-                @break
-            @endif
+        @php
+            $resource = $graph->resource($primaryTopic);
+        @endphp
+        {{-- メインのリソース ($primaryTopic) のプロパティを表示 --}}
+        @foreach($resource->properties() as $predicate)
+            @php
+                $objects = $resource->all($predicate);
+            @endphp
+            @include('parts.row')
         @endforeach
-        @foreach($graph->toRdfPhp() as $subject => $predicateObjects)
-            @if($subject !== $primaryTopic)
-                @foreach($predicateObjects as $predicate => $objects)
-                    @include('parts.row')
+        {{-- メインのリソース以外、かつブランクノードでないリソースを表示 --}}
+        @foreach($graph->resources() as $uri => $otherResource)
+            @if($uri !== $primaryTopic && !$otherResource->isBNode())
+                @foreach($otherResource->properties() as $predicate)
+                    @php
+                        $objects = $otherResource->all($predicate);
+                    @endphp
+                    @include('parts.row', ['subject' => $uri])
                 @endforeach
             @endif
         @endforeach
