@@ -1,7 +1,8 @@
 .env
 .git
 .idea
-vendor
+compose.override.yaml
+vendor/
 storage/app/*
 storage/framework/cache/*
 storage/framework/views/*

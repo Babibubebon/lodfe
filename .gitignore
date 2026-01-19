@@ -1,4 +1,5 @@
 config/datasets.php
+compose.override.yaml
 
 /.idea
 /*.iml
