@@ -1,8 +1,12 @@
+@php
+    /** @var \EasyRdf\Graph $graph */
+    /** @var string $primaryTopic */
+    /** @var string $dataUri */
+@endphp
 @extends('base')
 @section('title')
     About: {{ $graph->label($primaryTopic) ?? $graph->getLiteral($primaryTopic, 'schema:name') }}
 @endsection
-
 @section('content')
     <header>
         <h1>@yield('title')</h1>
@@ -13,27 +17,26 @@
                 <ul class="list-inline" style="display: inline">
                     @foreach($graph->typesAsResources($primaryTopic) as $type)
                         <li class="list-inline-item"><a href="{{ $type->getUri() }}">
-                            {{ $type->shorten() ?? $type->getUri() }}</a>
+                                {{ $type->shorten() ?? $type->getUri() }}</a>
                         </li>
                     @endforeach
                 </ul>
             </div>
         </div>
 
-        <div class="float-right">
+        <div class="float-end">
             <div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
                     Export
-                </a>
-
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="{{ $dataUri }}.nt">N-Triples</a>
-                    <a class="dropdown-item" href="{{ $dataUri }}.ttl">Turtle</a>
-                    <a class="dropdown-item" href="{{ $dataUri }}.json">JSON</a>
-                    <a class="dropdown-item" href="{{ $dataUri }}.jsonld">JSON-LD</a>
-                    <a class="dropdown-item" href="{{ $dataUri }}.rdf">RDF/XML</a>
-                </div>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ $dataUri }}.nt">N-Triples</a></li>
+                    <li><a class="dropdown-item" href="{{ $dataUri }}.ttl">Turtle</a></li>
+                    <li><a class="dropdown-item" href="{{ $dataUri }}.json">JSON</a></li>
+                    <li><a class="dropdown-item" href="{{ $dataUri }}.jsonld">JSON-LD</a></li>
+                    <li><a class="dropdown-item" href="{{ $dataUri }}.rdf">RDF/XML</a></li>
+                </ul>
             </div>
         </div>
     </header>

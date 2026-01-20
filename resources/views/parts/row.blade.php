@@ -33,7 +33,7 @@
                                 <a href="{{ $object->getUri() }}">{{ $object->shorten() ?? $object->getUri() }}</a>
                             @endif
                         </li>
-                    @else
+                    @elseif($object instanceof \EasyRdf\Literal)
                         <li>
                             {{-- Literal --}}
                             @php
