@@ -4,12 +4,18 @@
     /** @var string $dataUri */
     $title = $graph->label($primaryTopic) ?? $graph->getLiteral($primaryTopic, 'schema:name');
     $description = $graph->getLiteral($primaryTopic, 'schema:description');
+    $thumbnailUrl = $graph->getResource($primaryTopic, 'schema:thumbnailUrl');
 @endphp
 @extends('base')
 @section('title')About: {{ $title }}@endsection
 @section('head')
     <meta property="og:title" content="{{ $title }}"/>
+    @if($description)
     <meta property="og:description" content="{{ $description }}"/>
+    @endif
+    @if($thumbnailUrl)
+        <meta property="og:image" content="{{ $thumbnailUrl }}"/>
+    @endif
     <meta property="og:type" content="article"/>
 @endsection
 @section('content')

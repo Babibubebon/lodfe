@@ -3,7 +3,7 @@
         @if(isset($subject) && $subject !== $primaryTopic)
             is
         @endif
-        <a href="{{ $predicate }}">{{ \EasyRdf\RdfNamespace::shorten($predicate) ?? $predicate }}</a>
+        <a href="{{ $predicate }}">{{ $predicate }}</a>
         @if(isset($subject) && $subject !== $primaryTopic)
             of
         @endif
@@ -31,6 +31,16 @@
                                 </span>
                             @else
                                 <a href="{{ $object->getUri() }}">{{ $object->shorten() ?? $object->getUri() }}</a>
+                                @if($predicate === 'schema:thumbnailUrl')
+                                    <div class="mb-2">
+                                        <a href="{{ $object->getUri() }}" target="_blank" class="d-inline-block">
+                                            <img src="{{ $object->getUri() }}"
+                                                 alt="thumbnail"
+                                                 class="img-thumbnail"
+                                                 style="max-height: 200px; width: auto;">
+                                        </a>
+                                    </div>
+                                @endif
                             @endif
                         </li>
                     @elseif($object instanceof \EasyRdf\Literal)
