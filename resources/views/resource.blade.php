@@ -2,10 +2,15 @@
     /** @var \EasyRdf\Graph $graph */
     /** @var string $primaryTopic */
     /** @var string $dataUri */
+    $title = $graph->label($primaryTopic) ?? $graph->getLiteral($primaryTopic, 'schema:name');
+    $description = $graph->getLiteral($primaryTopic, 'schema:description');
 @endphp
 @extends('base')
-@section('title')
-    About: {{ $graph->label($primaryTopic) ?? $graph->getLiteral($primaryTopic, 'schema:name') }}
+@section('title')About: {{ $title }}@endsection
+@section('head')
+    <meta property="og:title" content="{{ $title }}"/>
+    <meta property="og:description" content="{{ $description }}"/>
+    <meta property="og:type" content="article"/>
 @endsection
 @section('content')
     <header class="mt-3">
