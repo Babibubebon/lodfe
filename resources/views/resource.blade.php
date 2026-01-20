@@ -8,7 +8,7 @@
     About: {{ $graph->label($primaryTopic) ?? $graph->getLiteral($primaryTopic, 'schema:name') }}
 @endsection
 @section('content')
-    <header>
+    <header class="mt-3">
         <h1>@yield('title')</h1>
         <div>
             <code class="h5">{{ $primaryTopic }}</code>
