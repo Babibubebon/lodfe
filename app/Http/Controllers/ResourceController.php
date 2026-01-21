@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\ContentNegotiatorMiddleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class ResourceController extends Controller
 {
@@ -33,13 +34,19 @@ class ResourceController extends Controller
             $httpClient = new \EasyRdf\Http\Client(null, $request->datasetConfig['http']);
             \EasyRdf\Http::setDefaultHttpClient($httpClient);
         }
-        $client = new \EasyRdf\Sparql\Client($request->datasetConfig['endpoint']);
+        $client = new \EasyRdf\Sparql\Client($request->datasetConfig['endpoint_uri']);
+
+        $fromClause = '';
+        if ($request->datasetConfig['graph_uris']) {
+           $fromClause = implode("\n", Arr::map($request->datasetConfig['graph_uris'], fn ($v) => "FROM <{$v}>"));
+        }
         $query = <<<EOT
     CONSTRUCT {
         <{$request->resourceUri}> ?p ?o .
         ?o ?op ?oo .
         ?s ?ip <{$request->resourceUri}> .
     }
+    {$fromClause}
     WHERE {
         <{$request->resourceUri}> ?p ?o .
         OPTIONAL {
